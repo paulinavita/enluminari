@@ -119,17 +119,13 @@ export function Chat({
         isPending={isGenerating || isTyping}
         handleSubmit={handleSubmit}
       >
-        {({ files, setFiles }) => (
-          <MessageInput
-            value={input}
-            onChange={handleInputChange}
-            allowAttachments={false}
-            files={files}
-            setFiles={setFiles}
-            stop={stop}
-            isGenerating={isGenerating}
-          />
-        )}
+        <MessageInput
+          value={input}
+          onChange={handleInputChange}
+          allowAttachments={false}
+          stop={stop}
+          isGenerating={isGenerating}
+        />
       </ChatForm>
     </ChatContainer>
   );
@@ -196,45 +192,38 @@ ChatContainer.displayName = "ChatContainer";
 interface ChatFormProps {
   className?: string;
   isPending: boolean;
-  handleSubmit: (
-    event?: { preventDefault?: () => void },
-    options?: { experimental_attachments?: FileList }
-  ) => void;
-  children: (props: {
-    files: File[] | null;
-    setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
-  }) => ReactElement;
+  handleSubmit: (event?: { preventDefault?: () => void }) => void;
+  children: ReactElement;
 }
 
 export const ChatForm = forwardRef<HTMLFormElement, ChatFormProps>(
   /* isPending */
-  ({ children, handleSubmit, className }, ref) => {
-    const [files, setFiles] = useState<File[] | null>(null);
+  ({ children, className }, ref) => {
+    const [, setFiles] = useState<File[] | null>(null);
 
-    const onSubmit = (event: React.FormEvent) => {
-      if (!files) {
-        handleSubmit(event);
-        return;
-      }
-
-      const fileList = createFileList(files);
-      handleSubmit(event, { experimental_attachments: fileList });
+    const onSubmit = () => {
+      // if (!files) {
+      //   handleSubmit(event);
+      //   return;
+      // }
+      // const fileList = createFileList(files);
+      // handleSubmit(event);
       setFiles(null);
     };
 
     return (
       <form ref={ref} onSubmit={onSubmit} className={className}>
-        {children({ files, setFiles })}
+        {children}
       </form>
     );
   }
 );
 ChatForm.displayName = "ChatForm";
 
-function createFileList(files: File[] | FileList): FileList {
-  const dataTransfer = new DataTransfer();
-  for (const file of Array.from(files)) {
-    dataTransfer.items.add(file);
-  }
-  return dataTransfer.files;
-}
+// function createFileList(files: File[] | FileList): FileList {
+//   const dataTransfer = new DataTransfer();
+//   for (const file of Array.from(files)) {
+//     dataTransfer.items.add(file);
+//   }
+//   return dataTransfer.files;
+// }

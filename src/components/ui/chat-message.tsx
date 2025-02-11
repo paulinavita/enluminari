@@ -69,14 +69,14 @@ interface ToolCall {
 interface ToolResult {
   state: "result";
   toolName: string;
-  result: any;
+  result: unknown;
 }
 
 type ToolInvocation = PartialToolCall | ToolCall | ToolResult;
 
 export interface Message {
   id: string;
-  role: "user" | "assistant" | (string & {});
+  role: "user" | "assistant" | string;
   content: string;
   createdAt?: Date;
   experimental_attachments?: Attachment[];
