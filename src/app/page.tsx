@@ -57,8 +57,9 @@ export default function Home() {
         <ChatWithSuggestions />
       </div>
       <div className="max-w-2xl mx-auto pt-24 text-sm text-gray-500">
-        paulie here, still working on the model to be better for sole
-        journalling purposes. in the meantime, enjoy 🌼
+        enluminari journaling prompter - by paulie; <br />
+        still working on the model to be better for sole journalling purposes.
+        in the meantime, enjoy 🌼
       </div>
     </main>
   );
