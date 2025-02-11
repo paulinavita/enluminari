@@ -56,7 +56,7 @@ export default function Home() {
       <div className="h-7/10 p-2 max-w-2xl journal-page">
         <ChatWithSuggestions />
       </div>
-      <div className="pt-24 text-sm text-gray-500">
+      <div className="max-w-2xl mx-auto pt-24 text-sm text-gray-500">
         paulie here, still working on the model to be better for sole
         journalling purposes. in the meantime, enjoy 🌼
       </div>
