@@ -119,13 +119,17 @@ export function Chat({
         isPending={isGenerating || isTyping}
         handleSubmit={handleSubmit}
       >
-        <MessageInput
-          value={input}
-          onChange={handleInputChange}
-          allowAttachments={false}
-          stop={stop}
-          isGenerating={isGenerating}
-        />
+        {({ files, setFiles }) => (
+          <MessageInput
+            value={input}
+            onChange={handleInputChange}
+            allowAttachments={false}
+            files={files}
+            setFiles={setFiles}
+            stop={stop}
+            isGenerating={isGenerating}
+          />
+        )}
       </ChatForm>
     </ChatContainer>
   );
@@ -182,7 +186,7 @@ export const ChatContainer = forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("grid max-h-full w-2xl grid-rows-[1fr_auto]", className)}
+      className={cn("grid max-h-full w-full grid-rows-[1fr_auto]", className)}
       {...props}
     />
   );
@@ -192,38 +196,45 @@ ChatContainer.displayName = "ChatContainer";
 interface ChatFormProps {
   className?: string;
   isPending: boolean;
-  handleSubmit: (event?: { preventDefault?: () => void }) => void;
-  children: ReactElement;
+  handleSubmit: (
+    event?: { preventDefault?: () => void },
+    options?: { experimental_attachments?: FileList }
+  ) => void;
+  children: (props: {
+    files: File[] | null;
+    setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
+  }) => ReactElement;
 }
 
 export const ChatForm = forwardRef<HTMLFormElement, ChatFormProps>(
   /* isPending */
-  ({ children, className }, ref) => {
-    const [, setFiles] = useState<File[] | null>(null);
+  ({ children, handleSubmit, className }, ref) => {
+    const [files, setFiles] = useState<File[] | null>(null);
 
-    const onSubmit = () => {
-      // if (!files) {
-      //   handleSubmit(event);
-      //   return;
-      // }
-      // const fileList = createFileList(files);
-      // handleSubmit(event);
+    const onSubmit = (event: React.FormEvent) => {
+      if (!files) {
+        handleSubmit(event);
+        return;
+      }
+
+      const fileList = createFileList(files);
+      handleSubmit(event, { experimental_attachments: fileList });
       setFiles(null);
     };
 
     return (
       <form ref={ref} onSubmit={onSubmit} className={className}>
-        {children}
+        {children({ files, setFiles })}
       </form>
     );
   }
 );
 ChatForm.displayName = "ChatForm";
 
-// function createFileList(files: File[] | FileList): FileList {
-//   const dataTransfer = new DataTransfer();
-//   for (const file of Array.from(files)) {
-//     dataTransfer.items.add(file);
-//   }
-//   return dataTransfer.files;
-// }
+function createFileList(files: File[] | FileList): FileList {
+  const dataTransfer = new DataTransfer();
+  for (const file of Array.from(files)) {
+    dataTransfer.items.add(file);
+  }
+  return dataTransfer.files;
+}

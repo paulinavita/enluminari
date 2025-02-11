@@ -1,5 +1,6 @@
 "use client";
 import { ChatWithSuggestions } from "@/components/chatbox";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -53,7 +54,11 @@ export default function Home() {
           opacity: 0.2;
         }
       `}</style>
+
       <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-8 journal-page">
+        <div className="header absolute top-0 left-10">
+          <Image src="/enluminari.svg" alt="logo" width={200} height={200} />
+        </div>
         <ChatWithSuggestions />
       </div>
       <div className="max-w-2xl pt-24 px-10 mx-auto text-sm text-gray-500">
