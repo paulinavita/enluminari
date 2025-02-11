@@ -124,6 +124,7 @@ export function Chat({
             value={input}
             onChange={handleInputChange}
             allowAttachments={false}
+            // @ts-expect-error because currently we disallow upload file
             files={files}
             setFiles={setFiles}
             stop={stop}
