@@ -16,7 +16,7 @@ export function ChatWithSuggestions() {
   } = useChat();
 
   return (
-    <div className="flex h-[70vh] w-full flex-col justify-center">
+    <div className="flex h-[70vh] w-2xl flex-col justify-center">
       <Chat
         messages={messages}
         input={input}

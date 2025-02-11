@@ -3,7 +3,7 @@ import { ChatWithSuggestions } from "@/components/chatbox";
 
 export default function Home() {
   return (
-    <main className=" flex mx-auto min-h-screen flex-col items-center justify-center ">
+    <main className="flex min-h-screen flex-col items-center justify-center w-full">
       <style jsx>{`
         .journal-page {
           background-image: radial-gradient(
@@ -53,10 +53,10 @@ export default function Home() {
           opacity: 0.2;
         }
       `}</style>
-      <div className="h-7/10 p-2 max-w-2xl journal-page">
+      <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-8 journal-page">
         <ChatWithSuggestions />
       </div>
-      <div className="max-w-2xl mx-auto pt-24 text-sm text-gray-500">
+      <div className="max-w-2xl pt-24 px-10 mx-auto text-sm text-gray-500">
         enluminari journaling prompter - by paulie; <br />
         still working on the model to be better for sole journalling purposes.
         in the meantime, enjoy 🌼
